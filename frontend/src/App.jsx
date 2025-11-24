@@ -24,13 +24,14 @@ const App = () => {
 
 const toggleImportanceOf = (id) => {
   // const url = `http://localhost:3000/notes/${id}`
-  const note = notes.find(n => n._id === id)
+  const note = notes.find(n => n.id === id)
+  console.log(note)
   const changedNote = { ...note, important: !note.important }
 
   noteService
   .update(id, changedNote)
   .then(returnedNote => {
-    setNotes(notes.map(note => note._id === id ? returnedNote : note))
+    setNotes(notes.map(note => note.id === id ? returnedNote : note))
   })
   .catch(error => {
    setErrorMessage(
@@ -39,7 +40,7 @@ const toggleImportanceOf = (id) => {
    setTimeout(()=>{
     setErrorMessage(null)
    }, 5000)
-    setNotes(notes.filter(n => n._id !== id))
+    setNotes(notes.filter(n => n.id !== id))
   })
   // axios.put(url, changedNote).then(response => {
   //   setNotes(notes.map(note => note.id === id ? response.data : note))
@@ -97,7 +98,7 @@ const toggleImportanceOf = (id) => {
       </div>
       <ul>
         {notesToShow.map((note) => (
-          <Note key={note._id} note={note} toggleImportance={() => toggleImportanceOf(note._id)} />
+          <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)} />
         ))}
       </ul>
       <form onSubmit={addNote}>
